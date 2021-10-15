@@ -1,0 +1,7 @@
+,name,description,color,tagName,Unnamed: 0,Unnamed: 0.1,Unnamed: 0.1.1
+0,Update Stats,Update pie chart and the table whenever new data is added,#ff0000,Severe,,,
+1,Item Resize,Items don't resize with change in window size,#ff0000,Severe,,,
+2,Multiline Description,Multiline Descriptions are not displayed correctly,#ff0000,Severe,0.0,,
+3,Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe,1.0,,
+4,Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe,2.0,0.0,
+5,Item Resize,Items don't resize with change in window size,#ff0000,Severe,3.0,1.0,0.0
