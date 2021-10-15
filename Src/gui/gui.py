@@ -9,7 +9,8 @@ import Src.data_handling.data as data_handling
 from PyQt5.QtChart import QChart, QPieSeries, QChartView, QPieSlice
 import UI.images_rc
 
-
+# just testing
+# git pull
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
 QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
