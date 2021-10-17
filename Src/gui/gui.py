@@ -75,12 +75,7 @@ class DlgMain(QMainWindow):
         chart.legend().markers(series1)[3].setLabel("Reopened")
         chart.legend().markers(series1)[4].setLabel("Closed")
 
-        chartView = QChartView(chart)
-        chartView.setRenderHint(QPainter.Antialiasing)
-
-        layout = QHBoxLayout(self.wiPieChart)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(chartView)
+        self.wiPieChart.setChart(chart)
 
     def displayRecentAdditions(self):
         items = self.dataClass.returnTopFiveItems()
@@ -109,6 +104,8 @@ class DlgMain(QMainWindow):
                 self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(tagNames[i]))
                 row += 1
             row = 0
+
+        self.tblRecentAdditions.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def SecondTab(self):
         # used to store a number representing one of the list widgets
