@@ -1,3 +1,4 @@
 name,description,color,tagName
+Update Stats,Update pie chart and the table whenever new data is added,#ff0000,Severe
 Multiline Description,Multiline Descriptions are not displayed correctly,#ff0000,Severe
 Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe

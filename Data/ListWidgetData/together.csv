@@ -1,7 +1,16 @@
-,name,description,color,tagName,Unnamed: 0,Unnamed: 0.1,Unnamed: 0.1.1
-0,Update Stats,Update pie chart and the table whenever new data is added,#ff0000,Severe,,,
-1,Item Resize,Items don't resize with change in window size,#ff0000,Severe,,,
-2,Multiline Description,Multiline Descriptions are not displayed correctly,#ff0000,Severe,0.0,,
-3,Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe,1.0,,
-4,Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe,2.0,0.0,
-5,Item Resize,Items don't resize with change in window size,#ff0000,Severe,3.0,1.0,0.0
+,name,description,color,tagName,Unnamed: 0,Unnamed: 0.1,Unnamed: 0.1.1,Unnamed: 0.1.1.1,Unnamed: 0.1.1.1.1,Unnamed: 0.1.1.1.1.1
+0,Multi-Tags,Can't add multiple tags to an item,#ff0000,Severe,,,,,,
+1,Multi-Project,Can't add multiple projects,#ff0000,Severe,,,,,,
+2,Test,Right click and select delete to remove this item,#55ffff,Mild,,,,,,
+3,Item Resize,Items don't resize with change in window size,#ff0000,Severe,,,,,,
+4,Multi-Project,Can't add multiple projects,#ff0000,Severe,0.0,,,,,
+5,Test,Right click and select delete to remove this item,#55ffff,Mild,1.0,,,,,
+6,Item Resize,Items don't resize with change in window size,#ff0000,Severe,2.0,,,,,
+7,Test,Right click and select delete to remove this item,#55ffff,Mild,3.0,0.0,,,,
+8,Item Resize,Items don't resize with change in window size,#ff0000,Severe,4.0,1.0,,,,
+9,Update Stats,Update pie chart and the table whenever new data is added,#ff0000,Severe,5.0,2.0,0.0,,,
+10,Item Resize,Items don't resize with change in window size,#ff0000,Severe,6.0,3.0,1.0,,,
+11,Multiline Description,Multiline Descriptions are not displayed correctly,#ff0000,Severe,7.0,4.0,2.0,0.0,,
+12,Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe,8.0,5.0,3.0,1.0,,
+13,Item Load Order,Items load in the opposite order to that in csv file,#ff0000,Severe,9.0,6.0,4.0,2.0,0.0,
+14,Item Resize,Items don't resize with change in window size,#ff0000,Severe,10.0,7.0,5.0,3.0,1.0,0.0
