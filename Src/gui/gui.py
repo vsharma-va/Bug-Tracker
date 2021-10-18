@@ -14,6 +14,7 @@ import UI.images_rc
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
 QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
+
 class DlgMain(QMainWindow):
     dataClass = data_handling.Data()
 
@@ -24,8 +25,95 @@ class DlgMain(QMainWindow):
         self.SecondTab()
 
         self.tabWidget = self.findChild(QTabWidget, 'tabWidget')
+        self.frmSideBar = self.findChild(QFrame, 'frmSideBar')
 
         self.tabWidget.currentChanged.connect(self.evt_tabWidget_currentChanged)
+
+    def openMainWindowSideBar(self):
+        currentHeightFrm = self.frmSideBar.height()
+        animationSidebar = QPropertyAnimation(self.frmSideBar, b"maximumWidth")
+        animationSidebar.setDuration(500)
+        animationSidebar.setStartValue(currentHeightFrm)
+        animationSidebar.setEndValue(150)
+        animationSidebar.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.btnAddProject.height()
+        animationAddProjectButton = QPropertyAnimation(self.btnAddProject, b"maximumWidth")
+        animationAddProjectButton.setDuration(500)
+        animationAddProjectButton.setStartValue(currentHeightAddProject)
+        animationAddProjectButton.setEndValue(150)
+        animationAddProjectButton.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightSelectProject = self.btnSelectProject.height()
+        animationSelectProjectButton = QPropertyAnimation(self.btnSelectProject, b"maximumWidth")
+        animationSelectProjectButton.setDuration(500)
+        animationSelectProjectButton.setStartValue(currentHeightSelectProject)
+        animationSelectProjectButton.setEndValue(150)
+        animationSelectProjectButton.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightMenuBtn = self.btnMenu.height()
+        animationMenu = QPropertyAnimation(self.btnMenu, b"maximumWidth")
+        animationMenu.setDuration(500)
+        animationMenu.setStartValue(currentHeightMenuBtn)
+        animationMenu.setEndValue(150)
+        animationMenu.setEasingCurve(QEasingCurve.InQuart)
+
+        group = QParallelAnimationGroup(self.frmSideBar)
+        group.addAnimation(animationSidebar)
+        group.addAnimation(animationAddProjectButton)
+        group.addAnimation(animationSelectProjectButton)
+        group.addAnimation(animationMenu)
+        group.start()
+
+        self.fadeWidgetOut(self.tabWidget)
+
+        self.makeWidgetUnselectable(self.tabWidget)
+
+    def closeMainWindowSideBar(self):
+        currentHeightFrm = self.frmSideBar.width()
+        animationSidebar = QPropertyAnimation(self.frmSideBar, b"maximumWidth")
+        animationSidebar.setDuration(500)
+        animationSidebar.setStartValue(currentHeightFrm)
+        animationSidebar.setEndValue(40)
+        animationSidebar.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.btnAddProject.width()
+        animationAddProjectButton = QPropertyAnimation(self.btnAddProject, b"maximumWidth")
+        animationAddProjectButton.setDuration(500)
+        animationAddProjectButton.setStartValue(currentHeightAddProject)
+        animationAddProjectButton.setEndValue(0)
+        animationAddProjectButton.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightSelectProject = self.btnSelectProject.width()
+        animationSelectProjectButton = QPropertyAnimation(self.btnSelectProject, b"maximumWidth")
+        animationSelectProjectButton.setDuration(500)
+        animationSelectProjectButton.setStartValue(currentHeightSelectProject)
+        animationSelectProjectButton.setEndValue(0)
+        animationSelectProjectButton.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightMenuBtn = self.btnMenu.width()
+        animationMenu = QPropertyAnimation(self.btnMenu, b"maximumWidth")
+        animationMenu.setDuration(500)
+        animationMenu.setStartValue(currentHeightMenuBtn)
+        animationMenu.setEndValue(40)
+        animationMenu.setEasingCurve(QEasingCurve.InQuart)
+
+        group = QParallelAnimationGroup(self.frmSideBar)
+        group.addAnimation(animationSidebar)
+        group.addAnimation(animationAddProjectButton)
+        group.addAnimation(animationSelectProjectButton)
+        group.addAnimation(animationMenu)
+        group.start()
+
+        self.fadeWidgetOut(self.tabWidget)
+
+        self.makeWidgetSelectable(self.tabWidget)
+
+    def evt_btnMenu_clicked(self):
+        if self.frmSideBar.width() == 40:
+            self.openMainWindowSideBar()
+        elif self.frmSideBar.width() > 40:
+            self.closeMainWindowSideBar()
 
     def evt_tabWidget_currentChanged(self):
         self.displayRecentAdditions()
@@ -36,6 +124,11 @@ class DlgMain(QMainWindow):
         self.wiLineChart = self.findChild(QChartView, 'wiLineChart')
         self.frmPieChart = self.findChild(QFrame, 'frmPieChart')
         self.tblRecentAdditions = self.findChild(QTableWidget, 'tblRecentAdditions')
+        self.btnMenu = self.findChild(QPushButton, 'btnMenu')
+        self.btnAddProject = self.findChild(QPushButton, 'btnAddProject')
+        self.btnSelectProject = self.findChild(QPushButton, 'btnSelectProject')
+
+        self.btnMenu.clicked.connect(self.evt_btnMenu_clicked)
 
         self.displayPieChart()
         self.displayRecentAdditions()
