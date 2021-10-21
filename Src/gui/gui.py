@@ -23,6 +23,7 @@ class DlgMain(QMainWindow):
         uic.loadUi('../../UI/Main_Window.ui', self)
         self.FirstTab()
         self.SecondTab()
+        self.firstTimeSetup()
 
         self.tabWidget = self.findChild(QTabWidget, 'tabWidget')
         self.frmPieChart = self.findChild(QFrame, 'frmPieChart')
@@ -45,6 +46,16 @@ class DlgMain(QMainWindow):
         self.btnSelectProject.clicked.connect(self.evt_btnSelectProject_clicked)
         self.btnCancelSelection.clicked.connect(self.evt_btnCancelSelection_clicked)
         self.lstWidDirectory.itemClicked.connect(self.evt_lstWidDirectory_itemClicked)
+
+    def firstTimeSetup(self):
+        projectName = self.dataClass.returnLastKnown()
+        if len(projectName) != 0:
+            self.dataClass.setProject(projectName)
+            self.clearAllListWidgets()
+            self.tblRecentAdditions.clear()
+            self.loadWidgetsToListView()
+            self.displayRecentAdditions()
+            self.displayPieChart()
 
     def closeEvent(self, event):
         self.dataClass.saveLastKnown()
