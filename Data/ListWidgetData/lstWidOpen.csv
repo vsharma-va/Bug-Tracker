@@ -1,4 +1,0 @@
-name,description,color,tagName
-Multi-Tags,Can't add multiple tags to an item,#ff0000,Severe
-Test,Right click and select delete to remove this item,#55ffff,Mild
-Item Resize,Items don't resize with change in window size,#ff0000,Severe
