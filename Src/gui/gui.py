@@ -25,9 +25,30 @@ class DlgMain(QMainWindow):
         self.SecondTab()
 
         self.tabWidget = self.findChild(QTabWidget, 'tabWidget')
+        self.frmPieChart = self.findChild(QFrame, 'frmPieChart')
+        self.frmAddProject = self.findChild(QFrame, 'frmAddProject')
+        self.frmSelectProject = self.findChild(QFrame, 'frmSelectProject')
         self.frmSideBar = self.findChild(QFrame, 'frmSideBar')
+        self.btnMenu = self.findChild(QPushButton, 'btnMenu')
+        self.btnAddProject = self.findChild(QPushButton, 'btnAddProject')
+        self.btnSelectProject = self.findChild(QPushButton, 'btnSelectProject')
+        self.btnCancelSelection = self.findChild(QPushButton, 'btnCancelSelection')
+        self.btnConfirmProject = self.findChild(QPushButton, 'btnConfirmProject')
+        self.lnEdtProjectName = self.findChild(QLineEdit, 'lnEdtProjectName')
+        self.lstWidDirectory = self.findChild(QListWidget, 'lstWidDirectory')
 
         self.tabWidget.currentChanged.connect(self.evt_tabWidget_currentChanged)
+
+        self.btnConfirmProject.clicked.connect(self.evt_btnConfirmProject_clicked)
+        self.btnMenu.clicked.connect(self.evt_btnMenu_clicked)
+        self.btnAddProject.clicked.connect(self.evt_btnAddProject_clicked)
+        self.btnSelectProject.clicked.connect(self.evt_btnSelectProject_clicked)
+        self.btnCancelSelection.clicked.connect(self.evt_btnCancelSelection_clicked)
+        self.lstWidDirectory.itemClicked.connect(self.evt_lstWidDirectory_itemClicked)
+
+    def closeEvent(self, event):
+        self.dataClass.saveLastKnown()
+        event.accept()
 
     def openMainWindowSideBar(self):
         currentHeightFrm = self.frmSideBar.height()
@@ -105,33 +126,194 @@ class DlgMain(QMainWindow):
         group.addAnimation(animationMenu)
         group.start()
 
-        self.fadeWidgetOut(self.tabWidget)
+        self.fadeWidgetIn(self.tabWidget)
 
         self.makeWidgetSelectable(self.tabWidget)
 
+    def openAddProjectSideBar(self):
+        currentHeightFrm = self.frmAddProject.height()
+        animation = QPropertyAnimation(self.frmAddProject, b"maximumWidth")
+        animation.setDuration(500)
+        animation.setStartValue(currentHeightFrm)
+        animation.setEndValue(250)
+        animation.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.btnConfirmProject.width()
+        animationConfirmProjectButton = QPropertyAnimation(self.btnConfirmProject, b"maximumWidth")
+        animationConfirmProjectButton.setDuration(500)
+        animationConfirmProjectButton.setStartValue(currentHeightAddProject)
+        animationConfirmProjectButton.setEndValue(250)
+        animationConfirmProjectButton.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.lnEdtProjectName.width()
+        animationLnEdtProjectName = QPropertyAnimation(self.lnEdtProjectName, b"maximumWidth")
+        animationLnEdtProjectName.setDuration(500)
+        animationLnEdtProjectName.setStartValue(currentHeightAddProject)
+        animationLnEdtProjectName.setEndValue(250)
+        animationLnEdtProjectName.setEasingCurve(QEasingCurve.InQuart)
+
+        group = QParallelAnimationGroup(self.frmAddProject)
+        group.addAnimation(animation)
+        group.addAnimation(animationConfirmProjectButton)
+        group.addAnimation(animationLnEdtProjectName)
+        group.start()
+
+        self.fadeWidgetOut(self.frmSideBar)
+        self.makeWidgetUnselectable(self.btnMenu)
+        self.makeWidgetUnselectable(self.btnAddProject)
+        self.makeWidgetUnselectable(self.btnSelectProject)
+
+    def closeAddProjectSideBar(self):
+        currentHeightFrm = self.frmAddProject.height()
+        animation = QPropertyAnimation(self.frmAddProject, b"maximumWidth")
+        animation.setDuration(500)
+        animation.setStartValue(currentHeightFrm)
+        animation.setEndValue(0)
+        animation.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.btnConfirmProject.width()
+        animationConfirmProjectButton = QPropertyAnimation(self.btnConfirmProject, b"maximumWidth")
+        animationConfirmProjectButton.setDuration(500)
+        animationConfirmProjectButton.setStartValue(currentHeightAddProject)
+        animationConfirmProjectButton.setEndValue(0)
+        animationConfirmProjectButton.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.lnEdtProjectName.width()
+        animationLnEdtProjectName = QPropertyAnimation(self.lnEdtProjectName, b"maximumWidth")
+        animationLnEdtProjectName.setDuration(500)
+        animationLnEdtProjectName.setStartValue(currentHeightAddProject)
+        animationLnEdtProjectName.setEndValue(0)
+        animationLnEdtProjectName.setEasingCurve(QEasingCurve.InQuart)
+
+        group = QParallelAnimationGroup(self.frmAddProject)
+        group.addAnimation(animation)
+        group.addAnimation(animationConfirmProjectButton)
+        group.addAnimation(animationLnEdtProjectName)
+        group.start()
+
+        self.fadeWidgetIn(self.frmSideBar)
+        self.makeWidgetSelectable(self.btnMenu)
+        self.makeWidgetSelectable(self.btnAddProject)
+        self.makeWidgetSelectable(self.btnSelectProject)
+
+    def openSelectProjectSidebar(self):
+        currentHeightFrm = self.frmSelectProject.height()
+        animation = QPropertyAnimation(self.frmSelectProject, b"maximumWidth")
+        animation.setDuration(500)
+        animation.setStartValue(currentHeightFrm)
+        animation.setEndValue(250)
+        animation.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.btnCancelSelection.width()
+        animationCancelSelection = QPropertyAnimation(self.btnCancelSelection, b"maximumWidth")
+        animationCancelSelection.setDuration(500)
+        animationCancelSelection.setStartValue(currentHeightAddProject)
+        animationCancelSelection.setEndValue(250)
+        animationCancelSelection.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.lstWidDirectory.width()
+        animationDirectory = QPropertyAnimation(self.lstWidDirectory, b"maximumWidth")
+        animationDirectory.setDuration(500)
+        animationDirectory.setStartValue(currentHeightAddProject)
+        animationDirectory.setEndValue(250)
+        animationDirectory.setEasingCurve(QEasingCurve.InQuart)
+
+        group = QParallelAnimationGroup(self.frmSelectProject)
+        group.addAnimation(animation)
+        group.addAnimation(animationCancelSelection)
+        group.addAnimation(animationDirectory)
+        group.start()
+
+        self.fadeWidgetOut(self.frmSideBar)
+        self.makeWidgetUnselectable(self.btnMenu)
+        self.makeWidgetUnselectable(self.btnAddProject)
+        self.makeWidgetUnselectable(self.btnSelectProject)
+
+    def closeSelectProjectSideBar(self):
+        currentHeightFrm = self.frmSelectProject.height()
+        animation = QPropertyAnimation(self.frmSelectProject, b"maximumWidth")
+        animation.setDuration(500)
+        animation.setStartValue(currentHeightFrm)
+        animation.setEndValue(0)
+        animation.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.btnCancelSelection.width()
+        animationCancelSelection = QPropertyAnimation(self.btnCancelSelection, b"maximumWidth")
+        animationCancelSelection.setDuration(500)
+        animationCancelSelection.setStartValue(currentHeightAddProject)
+        animationCancelSelection.setEndValue(0)
+        animationCancelSelection.setEasingCurve(QEasingCurve.InQuart)
+
+        currentHeightAddProject = self.lstWidDirectory.width()
+        animationDirectory = QPropertyAnimation(self.lstWidDirectory, b"maximumWidth")
+        animationDirectory.setDuration(500)
+        animationDirectory.setStartValue(currentHeightAddProject)
+        animationDirectory.setEndValue(0)
+        animationDirectory.setEasingCurve(QEasingCurve.InQuart)
+
+        group = QParallelAnimationGroup(self.frmSelectProject)
+        group.addAnimation(animation)
+        group.addAnimation(animationCancelSelection)
+        group.addAnimation(animationDirectory)
+        group.start()
+
+        self.fadeWidgetIn(self.frmSideBar)
+        self.makeWidgetSelectable(self.btnMenu)
+        self.makeWidgetSelectable(self.btnAddProject)
+        self.makeWidgetSelectable(self.btnSelectProject)
+
+    def displayAllProjects(self):
+        directoryList = self.dataClass.returnDirectories()
+        self.lstWidDirectory.clear()
+        self.lstWidDirectory.addItems(directoryList)
+
     def evt_btnMenu_clicked(self):
-        if self.frmSideBar.width() == 40:
+        if self.frmSideBar.width() == 30:
             self.openMainWindowSideBar()
-        elif self.frmSideBar.width() > 40:
+        elif self.frmSideBar.width() > 30:
             self.closeMainWindowSideBar()
 
     def evt_tabWidget_currentChanged(self):
         self.displayRecentAdditions()
         self.displayPieChart()
 
+    def evt_btnAddProject_clicked(self):
+        self.openAddProjectSideBar()
+
+    def evt_btnConfirmProject_clicked(self):
+        if len(self.lnEdtProjectName.text()) == 0:
+            QMessageBox.warning(self, "Error", "The project name field cannot be empty")
+        else:
+            self.dataClass.setProject(self.lnEdtProjectName.text())
+            self.closeAddProjectSideBar()
+
+    def evt_btnSelectProject_clicked(self):
+        self.openSelectProjectSidebar()
+        self.displayAllProjects()
+
+    def evt_lstWidDirectory_itemClicked(self):
+        directories = self.dataClass.returnDirectories()
+        currentProjectName = self.dataClass.returnCurrentProjectName()
+        print(currentProjectName)
+        rowNumber = self.lstWidDirectory.currentRow()
+        self.dataClass.setProject(directories[rowNumber])
+        if currentProjectName != directories[rowNumber]:
+            self.clearAllListWidgets()
+            self.tblRecentAdditions.clear()
+            self.loadWidgetsToListView()
+            self.displayRecentAdditions()
+            self.displayPieChart()
+
+    def evt_btnCancelSelection_clicked(self):
+        self.closeSelectProjectSideBar()
+
     def FirstTab(self):
         self.wiPieChart = self.findChild(QChartView, 'wiPieChart')
         self.wiLineChart = self.findChild(QChartView, 'wiLineChart')
-        self.frmPieChart = self.findChild(QFrame, 'frmPieChart')
         self.tblRecentAdditions = self.findChild(QTableWidget, 'tblRecentAdditions')
-        self.btnMenu = self.findChild(QPushButton, 'btnMenu')
-        self.btnAddProject = self.findChild(QPushButton, 'btnAddProject')
-        self.btnSelectProject = self.findChild(QPushButton, 'btnSelectProject')
 
-        self.btnMenu.clicked.connect(self.evt_btnMenu_clicked)
-
-        self.displayPieChart()
-        self.displayRecentAdditions()
+        # self.displayPieChart()
+        # self.displayRecentAdditions()
 
     def displayPieChart(self):
         recordsCount = self.dataClass.countRecords()
@@ -172,33 +354,34 @@ class DlgMain(QMainWindow):
 
     def displayRecentAdditions(self):
         items = self.dataClass.returnTopFiveItems()
-        names = items[0]
-        descriptions = items[1]
-        tagNames = items[2]
+        if items != False:
+            names = items[0]
+            descriptions = items[1]
+            tagNames = items[2]
 
-        row = 0
-        column = 0
-        if len(names) != 0:
-            self.tblRecentAdditions.blockSignals(True)
-            self.tblRecentAdditions.setRowCount(0)
-            self.tblRecentAdditions.setRowCount(len(names))
-            self.tblRecentAdditions.setColumnCount(3)
-            for i in range(len(names)):
-                self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(names[i]))
-                row += 1
             row = 0
-            column += 1
-            for i in range(len(descriptions)):
-                self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(descriptions[i]))
-                row += 1
-            row = 0
-            column += 1
-            for i in range(len(tagNames)):
-                self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(tagNames[i]))
-                row += 1
-            row = 0
+            column = 0
+            if len(names) != 0:
+                self.tblRecentAdditions.blockSignals(True)
+                self.tblRecentAdditions.setRowCount(0)
+                self.tblRecentAdditions.setRowCount(len(names))
+                self.tblRecentAdditions.setColumnCount(3)
+                for i in range(len(names)):
+                    self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(names[i]))
+                    row += 1
+                row = 0
+                column += 1
+                for i in range(len(descriptions)):
+                    self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(descriptions[i]))
+                    row += 1
+                row = 0
+                column += 1
+                for i in range(len(tagNames)):
+                    self.tblRecentAdditions.setItem(row, column, QTableWidgetItem(tagNames[i]))
+                    row += 1
+                row = 0
 
-        self.tblRecentAdditions.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            self.tblRecentAdditions.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def SecondTab(self):
         # used to store a number representing one of the list widgets
@@ -221,12 +404,12 @@ class DlgMain(QMainWindow):
         self.btnConfirmAddition = self.findChild(QPushButton, 'btnConfirmAddition')
         self.btnCancelAddition = self.findChild(QPushButton, 'btnCancelAddition')
         self.btnSelectColor = self.findChild(QPushButton, 'btnSelectColor')
-        self.lstWidOpen = custom_list_widget.ListWidget()
         self.txtBrowDescription = self.findChild(QTextBrowser, 'txtBrowDescription')
         self.linName = self.findChild(QLineEdit, 'linName')
         self.cmbTag = self.findChild(QComboBox, 'cmbTag')
 
         # instantiating the list widgets by calling the created class
+        self.lstWidOpen = custom_list_widget.ListWidget()
         self.lstWidProgress = custom_list_widget.ListWidget()
         self.lstWidTested = custom_list_widget.ListWidget()
         self.lstWidReopen = custom_list_widget.ListWidget()
@@ -247,7 +430,7 @@ class DlgMain(QMainWindow):
 
         # function used to load the data from csv at startup
         # important to call this function before checking for signals
-        self.loadWidgetsToListView()
+        # self.loadWidgetsToListView()
 
         '''#################################SIGNALS#####################################'''
         # these signals are used to open and close the bottom slider
@@ -300,49 +483,57 @@ class DlgMain(QMainWindow):
 
     '''############################GUI FUNCTIONS###########################################'''
 
+    def clearAllListWidgets(self):
+        self.lstWidOpen.clear()
+        self.lstWidProgress.clear()
+        self.lstWidTested.clear()
+        self.lstWidReopen.clear()
+        self.lstWidClose.clear()
+
     # this function loads saved data
     def loadWidgetsToListView(self):
         data = self.dataClass.loadListWidgetsItems()
-        openData = data[0]  # [lstWidOpen, lstWidProgress, lstWidTested, lstWidReopen, lstWidClose]
-        progressData = data[1]
-        testedData = data[2]
-        reopenData = data[3]
-        closeData = data[4]
-        if len(openData) != 0:
-            for i in range(len(openData)):
+        if data != False:
+            openData = data[0]  # [lstWidOpen, lstWidProgress, lstWidTested, lstWidReopen, lstWidClose]
+            progressData = data[1]
+            testedData = data[2]
+            reopenData = data[3]
+            closeData = data[4]
+            if len(openData) != 0:
+                for i in range(len(openData)):
+                    self.whichListWidget.clear()
+                    self.whichListWidget.append(0)
+                    self.addWidgetToListView(self.lstWidOpen, openData[-i-1][0].strip(), openData[-i-1][1].strip(), openData[-i-1][2].strip(),
+                                             openData[-i-1][3].strip())
+
+            if len(progressData) != 0:
+                for i in range(len(progressData)):
+                    self.whichListWidget.clear()
+                    self.whichListWidget.append(1)
+                    self.addWidgetToListView(self.lstWidProgress, progressData[-i - 1][0].strip(),
+                                             progressData[-i - 1][1].strip(), progressData[-i - 1][2].strip(),
+                                             progressData[-i - 1][3].strip())
+
+            if len(testedData) != 0:
+                for i in range(len(testedData)):
+                    self.whichListWidget.clear()
+                    self.whichListWidget.append(2)
+                    self.addWidgetToListView(self.lstWidTested, testedData[-i - 1][0].strip(), testedData[-i - 1][1].strip(),
+                                             testedData[-i - 1][2].strip(), testedData[-i - 1][3].strip())
+
+            if len(reopenData) != 0:
                 self.whichListWidget.clear()
-                self.whichListWidget.append(0)
-                self.addWidgetToListView(self.lstWidOpen, openData[-i-1][0].strip(), openData[-i-1][1].strip(), openData[-i-1][2].strip(),
-                                         openData[-i-1][3].strip())
+                self.whichListWidget.append(3)
+                for i in range(len(reopenData)):
+                    self.addWidgetToListView(self.lstWidReopen, reopenData[-i - 1][0].strip(), reopenData[-i - 1][1].strip(),
+                                             reopenData[-i - 1][2].strip(), reopenData[-i - 1][3].strip())
 
-        if len(progressData) != 0:
-            for i in range(len(progressData)):
+            if len(closeData) != 0:
                 self.whichListWidget.clear()
-                self.whichListWidget.append(1)
-                self.addWidgetToListView(self.lstWidProgress, progressData[-i - 1][0].strip(),
-                                         progressData[-i - 1][1].strip(), progressData[-i - 1][2].strip(),
-                                         progressData[-i - 1][3].strip())
-
-        if len(testedData) != 0:
-            for i in range(len(testedData)):
-                self.whichListWidget.clear()
-                self.whichListWidget.append(2)
-                self.addWidgetToListView(self.lstWidTested, testedData[-i - 1][0].strip(), testedData[-i - 1][1].strip(),
-                                         testedData[-i - 1][2].strip(), testedData[-i - 1][3].strip())
-
-        if len(reopenData) != 0:
-            self.whichListWidget.clear()
-            self.whichListWidget.append(3)
-            for i in range(len(reopenData)):
-                self.addWidgetToListView(self.lstWidReopen, reopenData[-i - 1][0].strip(), reopenData[-i - 1][1].strip(),
-                                         reopenData[-i - 1][2].strip(), reopenData[-i - 1][3].strip())
-
-        if len(closeData) != 0:
-            self.whichListWidget.clear()
-            self.whichListWidget.append(4)
-            for i in range(len(closeData)):
-                self.addWidgetToListView(self.lstWidClose, closeData[-i - 1][0].strip(), closeData[-i - 1][1].strip(),
-                                         closeData[-i - 1][2].strip(), closeData[-i - 1][3].strip())
+                self.whichListWidget.append(4)
+                for i in range(len(closeData)):
+                    self.addWidgetToListView(self.lstWidClose, closeData[-i - 1][0].strip(), closeData[-i - 1][1].strip(),
+                                             closeData[-i - 1][2].strip(), closeData[-i - 1][3].strip())
 
     # creates the list item and stores its data
     def addWidgetToListView(self, listWidget: QListWidget, heading: str, description: str, color: str = '',
