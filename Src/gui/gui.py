@@ -303,6 +303,8 @@ class DlgMain(QMainWindow):
             self.loadWidgetsToListView()
             self.displayRecentAdditions()
             self.displayPieChart()
+        self.closeSelectProjectSideBar()
+        self.closeMainWindowSideBar()
 
     def evt_btnCancelSelection_clicked(self):
         self.closeSelectProjectSideBar()
