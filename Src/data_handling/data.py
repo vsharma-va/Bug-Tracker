@@ -205,6 +205,13 @@ class Data:
         return self.projectName
 
     def saveLastKnown(self):
-        with open("../../Data/LastKnown.csv", 'w', encoding='utf-8') as file:
-            file.write(self.projectName)
+        if self.projectName != None:
+            with open("../../Data/LastKnown.csv", 'w', encoding='utf-8') as file:
+                file.write(self.projectName)
+            file.close()
+
+    def returnLastKnown(self):
+        with open("../../Data/LastKnown.csv", 'r', encoding='utf-8') as file:
+            projectName = file.read()
         file.close()
+        return projectName
